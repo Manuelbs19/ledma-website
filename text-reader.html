@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LEDMA Text Reader - Convert Text to Audio</title>
+
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-P0XBQK0GP0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  
+  gtag('config', 'G-P0XBQK0GP0');
+</script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(-45deg, #fdf6ee, #f6ede4, #fdf6ee, #f6ede4);
+      background-size: 400% 400%;
+      animation: gradientFlow 15s ease infinite;
+      color: #000;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Contenedor global para las figuras decorativas */
+    .global-bg-shapes {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    /* Animación para las figuras flotantes */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    @keyframes floatReverse {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(20px) rotate(-180deg); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.1); opacity: 0.5; }
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Header Styles */
+    header {
+      background-color: transparent;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-container a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: #000;
+    }
+
+    .logo-container a span {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(45deg, #004aad, #000);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header-dropdown:hover .header-dropdown-content {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .header-dropdown-content a:hover {
+      background: rgba(0, 74, 173, 0.05);
+      padding-left: 25px;
+    }
+
+    .header-dropdown {
+      position: relative;
+      margin: 0 15px;
+    }
+
+    .header-dropdown a {
+      color: #333;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      padding: 8px 5px;
+      position: relative;
+    }
+
+    .header-dropdown-content {
+      position: absolute;
+      top: 100%;
+      left: -15px;
+      background: white;
+      min-width: 180px;
+      border-radius: 8px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+      padding: 10px 0;
+      margin-top: 10px;
+    }
+
+    .header-dropdown-content a {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      color: #333;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    /* Tool Container Styles */
+    .tool-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 200px 1fr 200px;
+      gap: 2rem;
+      min-height: 80vh;
+    }
+
+    .ad-space {
+      background: #f0f0f0;
+      border: 2px dashed #ccc;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      font-weight: 600;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .ad-banner {
+      background: #f0f0f0;
+      border: 2px dashed #ccc;
+      border-radius: 10px;
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      font-weight: 600;
+      margin: 2rem auto;
+      max-width: 1400px;
+    }
+
+    .main-tool {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 2rem;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .voice-selector {
+      background: rgba(0, 74, 173, 0.05);
+      border-radius: 15px;
+      padding: 1.5rem;
+      max-height: 500px;
+      overflow-y: auto;
+    }
+
+    .voice-selector h3 {
+      color: #004aad;
+      margin-bottom: 1rem;
+      text-align: center;
+      font-size: 1.2rem;
+    }
+
+    .voice-category {
+      margin-bottom: 1.5rem;
+    }
+
+    .voice-category h4 {
+      color: #004aad;
+      font-size: 0.9rem;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid rgba(0, 74, 173, 0.2);
+    }
+
+    .voice-option {
+      background: white;
+      border: 2px solid transparent;
+      border-radius: 10px;
+      padding: 0.8rem;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .voice-option:hover {
+      border-color: #004aad;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,74,173,0.2);
+    }
+
+    .voice-option.selected {
+      border-color: #004aad;
+      background: rgba(0, 74, 173, 0.1);
+    }
+
+    .text-area {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .text-area h3 {
+      color: #004aad;
+      text-align: center;
+      font-size: 1.2rem;
+    }
+
+    .text-input {
+      width: 100%;
+      min-height: 300px;
+      border: 2px solid rgba(0, 74, 173, 0.2);
+      border-radius: 15px;
+      padding: 1.5rem;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      resize: vertical;
+      transition: border-color 0.3s ease;
+    }
+
+    .text-input:focus {
+      outline: none;
+      border-color: #004aad;
+      box-shadow: 0 0 10px rgba(0,74,173,0.2);
+    }
+
+    .controls {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .control-btn {
+      background: linear-gradient(45deg, #004aad, #0067b8);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 15px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 15px rgba(0, 74, 173, 0.3);
+    }
+
+    .control-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 74, 173, 0.4);
+    }
+
+    .control-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .control-btn.pause {
+      background: linear-gradient(45deg, #f0db4f, #ffd700);
+      color: #000;
+    }
+
+    .control-btn.download {
+      background: linear-gradient(45deg, #28a745, #20c997);
+    }
+
+    /* Language Voice Selector Buttons */
+    .lang-voice-btn {
+      background: rgba(255, 255, 255, 0.8);
+      border: 2px solid rgba(0, 74, 173, 0.3);
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      color: #004aad;
+    }
+
+    .lang-voice-btn:hover {
+      border-color: #004aad;
+      background: rgba(0, 74, 173, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .lang-voice-btn.active {
+      background: linear-gradient(45deg, #004aad, #0067b8);
+      color: white;
+      border-color: #004aad;
+      box-shadow: 0 4px 10px rgba(0, 74, 173, 0.3);
+    }
+
+    .voice-language-group {
+      transition: opacity 0.3s ease;
+    }
+
+    .character-count {
+      text-align: right;
+      color: #666;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+
+    .audio-player {
+      margin: 1rem 0;
+      text-align: center;
+    }
+
+    .audio-player audio {
+      width: 100%;
+      max-width: 400px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .tool-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      
+      .ad-space {
+        display: none;
+      }
+      
+      .main-tool {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .controls {
+        flex-direction: column;
+      }
+      
+      .control-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    /* Loading Animation */
+    .loading {
+      display: none;
+      text-align: center;
+      margin: 1rem 0;
+    }
+
+    .loading.active {
+      display: block;
+    }
+
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #004aad;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Figuras decorativas globales -->
+  <div class="global-bg-shapes">
+    <!-- Figuras en la parte superior -->
+    <div style="position: absolute; width: 300px; height: 300px; border-radius: 50%; background: linear-gradient(45deg, #004aad, #4a90e2); top: -150px; right: -50px; animation: float 6s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 200px; height: 200px; border-radius: 50%; background: linear-gradient(45deg, #f0db4f, #ffd700); top: 100px; left: -100px; animation: floatReverse 8s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 150px; height: 150px; border-radius: 20px; transform: rotate(45deg); background: linear-gradient(45deg, #004aad, transparent); top: 20%; left: 10%; animation: pulse 4s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 100px; height: 100px; border-radius: 10px; transform: rotate(30deg); background: linear-gradient(45deg, #f0db4f, transparent); top: 30%; right: 15%; animation: float 7s ease-in-out infinite;"></div>
+    
+    <!-- Figuras en la sección media -->
+    <div style="position: absolute; width: 250px; height: 250px; border-radius: 50%; background: linear-gradient(45deg, #004aad, transparent); top: 50%; left: -125px; animation: floatReverse 9s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 180px; height: 180px; border-radius: 30px; transform: rotate(60deg); background: linear-gradient(45deg, #f0db4f, transparent); top: 55%; right: -90px; animation: pulse 5s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(45deg, #4a90e2, transparent); top: 45%; right: 20%; animation: float 6s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 80px; height: 80px; border-radius: 15px; transform: rotate(15deg); background: linear-gradient(45deg, #ffd700, transparent); top: 60%; left: 25%; animation: floatReverse 8s ease-in-out infinite;"></div>
+    
+    <!-- Figuras en la parte inferior -->
+    <div style="position: absolute; width: 220px; height: 220px; border-radius: 50%; background: linear-gradient(45deg, #f0db4f, #ffd700); bottom: 200px; right: -110px; animation: pulse 7s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 160px; height: 160px; border-radius: 25px; transform: rotate(75deg); background: linear-gradient(45deg, #004aad, transparent); bottom: 150px; left: -80px; animation: float 8s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(45deg, #4a90e2, transparent); bottom: 300px; left: 30%; animation: floatReverse 6s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 130px; height: 130px; border-radius: 20px; transform: rotate(45deg); background: linear-gradient(45deg, #f0db4f, transparent); bottom: 250px; right: 30%; animation: pulse 9s ease-in-out infinite;"></div>
+    
+    <!-- Figuras adicionales para llenar espacios -->
+    <div style="position: absolute; width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(45deg, #004aad, transparent); top: 75%; left: 5%; animation: float 5s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 110px; height: 110px; border-radius: 15px; transform: rotate(30deg); background: linear-gradient(45deg, #ffd700, transparent); top: 80%; right: 10%; animation: floatReverse 7s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 95px; height: 95px; border-radius: 50%; background: linear-gradient(45deg, #4a90e2, transparent); top: 35%; left: 70%; animation: pulse 6s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 140px; height: 140px; border-radius: 25px; transform: rotate(60deg); background: linear-gradient(45deg, #004aad, transparent); top: 65%; right: 5%; animation: float 8s ease-in-out infinite;"></div>
+  </div>
+
+  <!-- Fixed Header -->
+  <header>
+    <div class="logo-container">
+      <a href="./index.html">
+        <span>LEDMA</span>
+      </a>
+    </div>
+    
+    <nav style="display: flex; align-items: center;">
+      <div class="nav-links" style="display: flex; margin-right: 1.5rem;">
+        <div class="header-dropdown">
+          <a href="#">
+            <span data-en="Tools" data-es="Herramientas">Tools</span>
+            <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i>
+            <span style="position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: linear-gradient(45deg, #004aad, #4a90e2); transition: width 0.3s ease;"></span>
+          </a>
+          <div class="header-dropdown-content">
+            <!-- Text Reader is hidden since it's the current tool -->
+            <a href="photo-editor.html">
+              <i class="fas fa-image" style="margin-right: 10px; width: 20px; color: #004aad;"></i>
+              <span data-en="Photo Editor" data-es="Editor de Fotos">Photo Editor</span>
+            </a>
+            <a href="audio-editor.html">
+              <i class="fas fa-music" style="margin-right: 10px; width: 20px; color: #004aad;"></i>
+              <span data-en="Audio Editor" data-es="Editor de Audio">Audio Editor</span>
+            </a>
+            <a href="file-converter.html">
+              <i class="fas fa-file-alt" style="margin-right: 10px; width: 20px; color: #004aad;"></i>
+              <span data-en="File Converter" data-es="Conversor de Archivos">File Converter</span>
+            </a>
+            <a href="reel-studio.html">
+              <i class="fas fa-video" style="margin-right: 10px; width: 20px; color: #004aad;"></i>
+              <span data-en="ReelStudio Lab" data-es="ReelStudio Lab">ReelStudio Lab</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Top Ad Banner -->
+  <div class="ad-banner">
+    <p data-en="Advertisement Space - 728x90" data-es="Espacio Publicitario - 728x90">Advertisement Space - 728x90</p>
+  </div>
+
+  <!-- Main Tool Container -->
+  <div class="tool-container">
+    <!-- Left Ad Space -->
+    <div class="ad-space">
+      <p data-en="Side Ad 200x600" data-es="Anuncio Lateral 200x600">Side Ad<br>200x600</p>
+    </div>
+
+    <!-- Main Tool Area -->
+    <div class="main-tool">
+      <!-- Voice Selector -->
+      <div class="voice-selector">
+        <h3 data-en="Select Voice" data-es="Seleccionar Voz">
+          <i class="fas fa-microphone" style="margin-right: 0.5rem;"></i>
+          Select Voice
+        </h3>
+        
+        <!-- Language Selector -->
+        <div style="margin-bottom: 1.5rem;">
+          <h4 style="color: #004aad; font-size: 0.9rem; margin-bottom: 0.8rem;">
+            <i class="fas fa-globe" style="margin-right: 0.5rem;"></i>
+            <span data-en="Voice Language" data-es="Idioma de Voz">Voice Language</span>
+          </h4>
+          <div class="language-selector" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+            <button class="lang-voice-btn active" data-lang="en">
+              <i class="fas fa-flag-usa"></i> English
+            </button>
+            <button class="lang-voice-btn" data-lang="es">
+              <i class="fas fa-flag"></i> Español
+            </button>
+          </div>
+        </div>
+        
+        <!-- Voice Categories Container -->
+        <div id="voiceContainer">
+          <!-- English Voices (Default) -->
+          <div class="voice-language-group" data-language="en">
+            <div class="voice-category">
+              <h4 data-en="Female Voices" data-es="Voces Femeninas">
+                <i class="fas fa-female" style="margin-right: 0.5rem;"></i>
+                Female Voices
+              </h4>
+              <div class="voice-option" data-voice="Google UK English Female">
+                <i class="fas fa-volume-up"></i>
+                <span>Sarah (UK)</span>
+              </div>
+              <div class="voice-option selected" data-voice="Google US English Female">
+                <i class="fas fa-volume-up"></i>
+                <span>Emma (US)</span>
+              </div>
+              <div class="voice-option" data-voice="Microsoft Zira">
+                <i class="fas fa-volume-up"></i>
+                <span>Zira (US)</span>
+              </div>
+            </div>
+
+            <div class="voice-category">
+              <h4 data-en="Male Voices" data-es="Voces Masculinas">
+                <i class="fas fa-male" style="margin-right: 0.5rem;"></i>
+                Male Voices
+              </h4>
+              <div class="voice-option" data-voice="Google UK English Male">
+                <i class="fas fa-volume-up"></i>
+                <span>James (UK)</span>
+              </div>
+              <div class="voice-option" data-voice="Google US English Male">
+                <i class="fas fa-volume-up"></i>
+                <span>Michael (US)</span>
+              </div>
+              <div class="voice-option" data-voice="Microsoft David">
+                <i class="fas fa-volume-up"></i>
+                <span>David (US)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Spanish Voices -->
+          <div class="voice-language-group" data-language="es" style="display: none;">
+            <div class="voice-category">
+              <h4>
+                <i class="fas fa-female" style="margin-right: 0.5rem;"></i>
+                Voces Femeninas
+              </h4>
+              <div class="voice-option" data-voice="Google Español">
+                <i class="fas fa-volume-up"></i>
+                <span>María (ES)</span>
+              </div>
+              <div class="voice-option" data-voice="Microsoft Sabina">
+                <i class="fas fa-volume-up"></i>
+                <span>Sabina (MX)</span>
+              </div>
+              <div class="voice-option" data-voice="Google Español Female">
+                <i class="fas fa-volume-up"></i>
+                <span>Carmen (AR)</span>
+              </div>
+            </div>
+
+            <div class="voice-category">
+              <h4>
+                <i class="fas fa-male" style="margin-right: 0.5rem;"></i>
+                Voces Masculinas
+              </h4>
+              <div class="voice-option" data-voice="Google Español Male">
+                <i class="fas fa-volume-up"></i>
+                <span>Carlos (ES)</span>
+              </div>
+              <div class="voice-option" data-voice="Microsoft Pablo">
+                <i class="fas fa-volume-up"></i>
+                <span>Pablo (MX)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Text Area -->
+      <div class="text-area">
+        <h3 data-en="Enter Your Text" data-es="Ingresa Tu Texto">
+          <i class="fas fa-edit" style="margin-right: 0.5rem;"></i>
+          Enter Your Text
+        </h3>
+        
+        <textarea 
+          id="textInput" 
+          class="text-input" 
+          placeholder="Type or paste your text here to convert to audio..."
+          data-placeholder-en="Type or paste your text here to convert to audio..."
+          data-placeholder-es="Escribe o pega tu texto aquí para convertir a audio..."
+          maxlength="5000"
+        ></textarea>
+        
+        <div class="character-count">
+          <span id="charCount">0</span>/5000 characters
+        </div>
+
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <p data-en="Converting text to audio..." data-es="Convirtiendo texto a audio...">Converting text to audio...</p>
+        </div>
+
+        <div class="audio-player" id="audioPlayer" style="display: none;">
+          <audio controls id="audioElement">
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+
+        <div class="controls">
+          <button class="control-btn" id="playBtn">
+            <i class="fas fa-play"></i>
+            <span data-en="Play" data-es="Reproducir">Play</span>
+          </button>
+          
+          <button class="control-btn pause" id="pauseBtn" disabled>
+            <i class="fas fa-pause"></i>
+            <span data-en="Pause" data-es="Pausar">Pause</span>
+          </button>
+          
+          <button class="control-btn download" id="downloadBtn" disabled>
+            <i class="fas fa-download"></i>
+            <span data-en="Download" data-es="Descargar">Download</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Ad Space -->
+    <div class="ad-space">
+      <p data-en="Side Ad 200x600" data-es="Anuncio Lateral 200x600">Side Ad<br>200x600</p>
+    </div>
+  </div>
+
+  <!-- Bottom Ad Banner -->
+  <div class="ad-banner">
+    <p data-en="Advertisement Space - 728x90" data-es="Espacio Publicitario - 728x90">Advertisement Space - 728x90</p>
+  </div>
+
+  <!-- Footer (Identical to Lobby) -->
+  <footer style="background-color: transparent; color: #000; padding: 4rem 2rem;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem; max-width: 1200px; margin: 0 auto;">
+      <div style="flex: 1 1 200px;">
+        <img src="logo-transparent.png" alt="LEDMA Logo" style="height: 40px; margin-bottom: 1rem;">
+        <p data-en="© 2025 LEDMA. Made for students, by students." data-es="© 2025 LEDMA. Hecho para estudiantes, por estudiantes.">&copy; 2025 LEDMA. Made for students, by students.</p>
+      </div>
+      <div style="flex: 1 1 150px;">
+        <h4 style="margin-bottom: 1rem; font-size: 1rem; color: #004aad;">Product</h4>
+        <p>Text Reader</p>
+        <p>Photo Editor</p>
+        <p>Audio Editor</p>
+        <p>File Converter</p>
+        <p>ReelStudio Lab</p>
+      </div>
+      <div style="flex: 1 1 150px;">
+        <h4 style="margin-bottom: 1rem; font-size: 1rem; color: #004aad;">Learn More</h4>
+        <p>How it works</p>
+        <p>Tips & Tutorials</p>
+        <p>FAQs</p>
+        <p>Content Ideas</p>
+      </div>
+      <div style="flex: 1 1 150px;">
+        <h4 style="margin-bottom: 1rem; font-size: 1rem; color: #004aad;">Company</h4>
+        <p>About Us</p>
+        <p>Contact</p>
+        <p>Terms</p>
+        <p>Privacy</p>
+      </div>
+      <div style="flex: 1 1 150px;">
+        <h4 style="margin-bottom: 1rem; font-size: 1rem; color: #004aad;">Social</h4>
+        <a href="#" style="text-decoration: none; color: #333;"><i class="fab fa-instagram"></i> Instagram</a><br>
+        <a href="#" style="text-decoration: none; color: #333;"><i class="fab fa-tiktok"></i> TikTok</a>
+      </div>
+    </div>
+    <div style="text-align: center; margin-top: 2rem; font-size: 0.9rem;">
+      <p data-en="All rights reserved." data-es="Todos los derechos reservados.">All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    let isEnglish = true;
+    let currentAudio = null;
+    let selectedVoice = 'Google US English Female';
+    let currentVoiceLanguage = 'en';
+
+    // Language Toggle for Interface
+    function toggleLanguage() {
+      const elements = document.querySelectorAll('[data-en]');
+      elements.forEach(el => {
+        if (el.tagName === 'TEXTAREA') {
+          el.placeholder = isEnglish ? el.getAttribute('data-placeholder-es') : el.getAttribute('data-placeholder-en');
+        } else {
+          el.textContent = isEnglish ? el.getAttribute('data-es') : el.getAttribute('data-en');
+        }
+      });
+      isEnglish = !isEnglish;
+    }
+
+    // Voice Language Selector
+    function switchVoiceLanguage(language) {
+      // Hide all voice groups
+      document.querySelectorAll('.voice-language-group').forEach(group => {
+        group.style.display = 'none';
+      });
+
+      // Show selected language group
+      const targetGroup = document.querySelector(`[data-language="${language}"]`);
+      if (targetGroup) {
+        targetGroup.style.display = 'block';
+      }
+
+      // Update button states
+      document.querySelectorAll('.lang-voice-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      document.querySelector(`[data-lang="${language}"]`).classList.add('active');
+
+      // Reset voice selection
+      document.querySelectorAll('.voice-option').forEach(option => {
+        option.classList.remove('selected');
+      });
+
+      // Select first voice in the new language
+      const firstVoice = targetGroup.querySelector('.voice-option');
+      if (firstVoice) {
+        firstVoice.classList.add('selected');
+        selectedVoice = firstVoice.getAttribute('data-voice');
+      }
+
+      currentVoiceLanguage = language;
+    }
+
+    // Initialize voice language buttons
+    document.querySelectorAll('.lang-voice-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const language = this.getAttribute('data-lang');
+        switchVoiceLanguage(language);
+      });
+    });
+
+    // Character Counter
+    document.getElementById('textInput').addEventListener('input', function() {
+      const count = this.value.length;
+      document.getElementById('charCount').textContent = count;
+      
+      if (count > 4500) {
+        document.getElementById('charCount').style.color = '#ff6b6b';
+      } else {
+        document.getElementById('charCount').style.color = '#666';
+      }
+    });
+
+    // Voice Selection
+    document.querySelectorAll('.voice-option').forEach(option => {
+      option.addEventListener('click', function() {
+        document.querySelectorAll('.voice-option').forEach(opt => opt.classList.remove('selected'));
+        this.classList.add('selected');
+        selectedVoice = this.getAttribute('data-voice');
+      });
+    });
+
+    // Text-to-Speech Functionality
+    function speakText() {
+      const text = document.getElementById('textInput').value.trim();
+      
+      if (!text) {
+        alert('Please enter some text first!');
+        return;
+      }
+
+      if (text.length > 5000) {
+        alert('Text is too long! Maximum 5000 characters allowed.');
+        return;
+      }
+
+      // Show loading
+      document.getElementById('loading').classList.add('active');
+      document.getElementById('playBtn').disabled = true;
+
+      // Stop any current speech
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio = null;
+      }
+
+      // Check if browser supports Speech Synthesis
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        
+        // Configure voice
+        const voices = speechSynthesis.getVoices();
+        const voice = voices.find(v => v.name.includes('Google') || v.name.includes('Microsoft'));
+        if (voice) {
+          utterance.voice = voice;
+        }
+        
+        utterance.rate = 0.9;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+
+        utterance.onstart = function() {
+          document.getElementById('loading').classList.remove('active');
+          document.getElementById('playBtn').disabled = false;
+          document.getElementById('pauseBtn').disabled = false;
+          document.getElementById('downloadBtn').disabled = false;
+        };
+
+        utterance.onend = function() {
+          document.getElementById('pauseBtn').disabled = true;
+          document.getElementById('playBtn').disabled = false;
+        };
+
+        utterance.onerror = function() {
+          document.getElementById('loading').classList.remove('active');
+          alert('Error generating audio. Please try again.');
+          document.getElementById('playBtn').disabled = false;
+        };
+
+        speechSynthesis.speak(utterance);
+        currentAudio = utterance;
+      } else {
+        // Fallback: Create a simple audio notification
+        document.getElementById('loading').classList.remove('active');
+        alert('Text-to-speech is not supported in your browser. Please try using Chrome, Firefox, or Safari.');
+        document.getElementById('playBtn').disabled = false;
+      }
+    }
+
+    function pauseAudio() {
+      if (speechSynthesis.speaking) {
+        speechSynthesis.pause();
+        document.getElementById('pauseBtn').disabled = true;
+        document.getElementById('playBtn').disabled = false;
+      }
+    }
+
+    function downloadAudio() {
+      // Since Web Speech API doesn't provide downloadable audio,
+      // we'll show a message about this limitation
+      alert('Download feature will be available in the premium version. For now, you can use the play function to listen to your text.');
+    }
+
+    // Event Listeners
+    document.getElementById('playBtn').addEventListener('click', speakText);
+    document.getElementById('pauseBtn').addEventListener('click', pauseAudio);
+    document.getElementById('downloadBtn').addEventListener('click', downloadAudio);
+
+    // Load voices when available
+    speechSynthesis.onvoiceschanged = function() {
+      const voices = speechSynthesis.getVoices();
+      console.log('Available voices:', voices.length);
+    };
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey && e.key === 'Enter') {
+        speakText();
+      }
+      if (e.key === 'Escape') {
+        pauseAudio();
+      }
+    });
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      // Load voices
+      if (speechSynthesis.getVoices().length === 0) {
+        speechSynthesis.addEventListener('voiceschanged', function() {
+          console.log('Voices loaded');
+        });
+      }
+    });
+  </script>
+</body>
+</html>
