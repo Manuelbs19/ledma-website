@@ -1,0 +1,9 @@
+{
+  "name": "ledma-backend-vercel",
+  "version": "1.0.0",
+  "description": "LEDMA Backend API for Vercel",
+  "dependencies": {
+    "stripe": "^12.18.0",
+    "firebase-admin": "^11.10.1"
+  }
+}

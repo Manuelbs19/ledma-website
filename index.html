@@ -1,0 +1,1784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LEDMA - Your School Ally</title>
+  
+  <!-- Google tag (gtag.js) --> 
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-P0XBQK0GP0"></script> 
+  <script> 
+    window.dataLayer = window.dataLayer || []; 
+    function gtag(){dataLayer.push(arguments);} 
+    gtag('js', new Date()); 
+    gtag('config', 'G-P0XBQK0GP0'); 
+  </script>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(-45deg, #fdf6ee, #f6ede4, #fdf6ee, #f6ede4);
+      background-size: 400% 400%;
+      animation: gradientFlow 15s ease infinite;
+      color: #000;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Contenedor global para las figuras decorativas */
+    .global-bg-shapes {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    /* Animación para las figuras flotantes */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    @keyframes floatReverse {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(20px) rotate(-180deg); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.1); opacity: 0.5; }
+    }
+
+    header {
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 2rem;
+    }
+
+    nav {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    nav a {
+      margin-left: 20px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+      position: relative;
+    }
+
+    nav a:hover {
+      color: #f0db4f;
+    }
+
+    .dropdown {
+      display: inline-block;
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      padding: 10px;
+      top: 100%;
+      left: 0;
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      display: block;
+      margin: 5px 0;
+      color: #000;
+      text-decoration: none;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .signin-btn, .lang-btn {
+      background: #f0db4f;
+      color: #000;
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-left: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .signin-btn:hover, .lang-btn:hover {
+      background: #ffe666;
+      transform: translateY(-2px);
+    }
+
+    .hero {
+      height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      animation: fadeIn 2s ease-in;
+      position: relative;
+    }
+
+    .hero h2 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 700px;
+    }
+
+    .features {
+      padding: 4rem 2rem;
+      background-color: transparent;
+      position: relative;
+    }
+
+    .features h3 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+    }
+
+    .feature-item {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1s ease forwards;
+      background-color: transparent;
+      padding: 1rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    .feature-item i {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #004aad;
+    }
+
+    .testimonials {
+      padding: 4rem 2rem;
+      color: #000;
+      text-align: center;
+      position: relative;
+    }
+
+    .testimonial-item {
+      margin: 1rem auto;
+      max-width: 600px;
+      font-style: italic;
+    }
+
+    footer {
+      background-color: #003377;
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+      position: relative;
+    }
+
+    .socials i {
+      font-size: 1.5rem;
+      margin: 0 10px;
+      color: white;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @media (max-width: 768px) {
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .testimonials .feature-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .testimonials .feature-item {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1s ease forwards;
+    }
+
+    .testimonials .feature-item:nth-child(2) {
+      animation-delay: 0.3s;
+    }
+
+    .testimonials .feature-item:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .faq summary i {
+      transition: transform 0.3s;
+      margin-left: 10px;
+    }
+
+    .faq details[open] summary i {
+      transform: rotate(180deg);
+    }
+    
+    .feature-item summary i {
+      transition: transform 0.3s;
+      margin-left: 10px;
+    }
+    
+    .feature-item[open] summary i {
+      transform: rotate(180deg);
+    }
+    
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .stat-item:hover {
+      transform: translateY(-10px);
+    }
+    
+    /* New styles added for dual-section layout */
+    .dual-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: flex-start;
+      justify-content: space-between;
+      position: relative;
+    }
+    
+    .dual-section > section {
+      flex: 1 1 48%;
+    }
+    
+    @media (max-width: 768px) {
+      .dual-section {
+        flex-direction: column;
+      }
+    }
+    
+    /* New styles for the enhanced hero section */
+    .cta-primary {
+      background: linear-gradient(45deg, #004aad, #0067b8);
+      color: white;
+      padding: 0.8rem 2rem;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(0, 74, 173, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .cta-secondary {
+      background: transparent;
+      color: #004aad;
+      padding: 0.8rem 2rem;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      border: 2px solid #004aad;
+      transition: all 0.3s ease;
+    }
+    
+    .cta-primary:hover, .cta-secondary:hover {
+      transform: translateY(-5px);
+    }
+    
+    .hero-badges {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+    }
+    
+    .badge {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    /* Styles for the enhanced header */
+    /* Hover effects for navigation */
+    .nav-links a:hover {
+      color: #004aad;
+    }
+
+    .nav-links a:hover span:last-child {
+      width: 100%;
+    }
+
+    .header-dropdown:hover .header-dropdown-content {
+      opacity: 1 !important;
+      visibility: visible !important;
+      transform: translateY(0) !important;
+    }
+
+    .header-dropdown-content a:hover {
+      background: rgba(0, 74, 173, 0.05);
+      padding-left: 25px;
+    }
+
+    .header-lang-btn:hover {
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    .header-signin-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 74, 173, 0.3);
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      .nav-links, .nav-actions {
+        display: none !important;
+      }
+      
+      .mobile-menu-btn {
+        display: block !important;
+      }
+    }
+
+    /* Logo hover effect */
+    .logo-container a:hover img {
+      transform: scale(1.05);
+    }
+
+    /* 🔥 NEW STYLES FOR USER SYSTEM */
+    .user-status {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-left: 1rem;
+    }
+
+    .credits-display {
+      background: linear-gradient(45deg, #004aad, #0067b8);
+      color: white;
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .user-menu {
+      position: relative;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #f0db4f, #ffd700);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      cursor: pointer;
+      color: #000;
+    }
+
+    .user-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: white;
+      min-width: 200px;
+      border-radius: 8px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+      margin-top: 10px;
+      z-index: 1000;
+    }
+
+    .user-menu:hover .user-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .user-dropdown a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: #333;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .user-dropdown a:hover {
+      background: rgba(0, 74, 173, 0.05);
+      padding-left: 25px;
+    }
+
+    .user-dropdown i {
+      margin-right: 10px;
+      width: 20px;
+      color: #004aad;
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 15px;
+      padding: 2rem;
+      max-width: 400px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: scale(0.8);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .modal {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-header h2 {
+      color: #004aad;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.8rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #004aad;
+    }
+
+    .btn-primary {
+      width: 100%;
+      background: linear-gradient(45deg, #004aad, #0067b8);
+      color: white;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 1rem;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0, 74, 173, 0.3);
+    }
+
+    .btn-secondary {
+      width: 100%;
+      background: transparent;
+      color: #004aad;
+      padding: 0.8rem;
+      border: 2px solid #004aad;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+      background: #004aad;
+      color: white;
+    }
+
+    .modal-switch {
+      text-align: center;
+      margin-top: 1rem;
+      color: #666;
+    }
+
+    .modal-switch a {
+      color: #004aad;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .error-message {
+      background: #ffebee;
+      color: #c62828;
+      padding: 0.8rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .success-message {
+      background: #e8f5e8;
+      color: #2e7d32;
+      padding: 0.8rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+
+    /* Credits Store Styles */
+    .credits-packages {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .credit-package {
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .credit-package:hover {
+      border-color: #004aad;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .credit-package.popular {
+      border-color: #f0db4f;
+      background: linear-gradient(135deg, rgba(240, 219, 79, 0.1), rgba(255, 215, 0, 0.05));
+      position: relative;
+    }
+
+    .credit-package.popular::before {
+      content: "Más Popular";
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #f0db4f;
+      color: #000;
+      padding: 0.3rem 1rem;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .package-credits {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #004aad;
+      margin-bottom: 0.5rem;
+    }
+
+    .package-price {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .package-discount {
+      color: #4caf50;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .package-value {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    .daily-usage {
+      background: rgba(0, 74, 173, 0.05);
+      padding: 0.5rem 1rem;
+      border-radius: 15px;
+      font-size: 0.85rem;
+      color: #004aad;
+      margin-left: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Figuras decorativas globales -->
+  <div class="global-bg-shapes">
+    <!-- Figuras en la parte superior -->
+    <div style="position: absolute; width: 300px; height: 300px; border-radius: 50%; background: linear-gradient(45deg, #004aad, #4a90e2); top: -150px; right: -50px; animation: float 6s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 200px; height: 200px; border-radius: 50%; background: linear-gradient(45deg, #f0db4f, #ffd700); top: 100px; left: -100px; animation: floatReverse 8s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 150px; height: 150px; border-radius: 20px; transform: rotate(45deg); background: linear-gradient(45deg, #004aad, transparent); top: 20%; left: 10%; animation: pulse 4s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 100px; height: 100px; border-radius: 10px; transform: rotate(30deg); background: linear-gradient(45deg, #f0db4f, transparent); top: 30%; right: 15%; animation: float 7s ease-in-out infinite;"></div>
+    
+    <!-- Figuras en la sección media -->
+    <div style="position: absolute; width: 250px; height: 250px; border-radius: 50%; background: linear-gradient(45deg, #004aad, transparent); top: 50%; left: -125px; animation: floatReverse 9s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 180px; height: 180px; border-radius: 30px; transform: rotate(60deg); background: linear-gradient(45deg, #f0db4f, transparent); top: 55%; right: -90px; animation: pulse 5s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(45deg, #4a90e2, transparent); top: 45%; right: 20%; animation: float 6s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 80px; height: 80px; border-radius: 15px; transform: rotate(15deg); background: linear-gradient(45deg, #ffd700, transparent); top: 60%; left: 25%; animation: floatReverse 8s ease-in-out infinite;"></div>
+    
+    <!-- Figuras en la parte inferior -->
+    <div style="position: absolute; width: 220px; height: 220px; border-radius: 50%; background: linear-gradient(45deg, #f0db4f, #ffd700); bottom: 200px; right: -110px; animation: pulse 7s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 160px; height: 160px; border-radius: 25px; transform: rotate(75deg); background: linear-gradient(45deg, #004aad, transparent); bottom: 150px; left: -80px; animation: float 8s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(45deg, #4a90e2, transparent); bottom: 300px; left: 30%; animation: floatReverse 6s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 130px; height: 130px; border-radius: 20px; transform: rotate(45deg); background: linear-gradient(45deg, #f0db4f, transparent); bottom: 250px; right: 30%; animation: pulse 9s ease-in-out infinite;"></div>
+    
+    <!-- Figuras adicionales para llenar espacios -->
+    <div style="position: absolute; width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(45deg, #004aad, transparent); top: 75%; left: 5%; animation: float 5s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 110px; height: 110px; border-radius: 15px; transform: rotate(30deg); background: linear-gradient(45deg, #ffd700, transparent); top: 80%; right: 10%; animation: floatReverse 7s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 95px; height: 95px; border-radius: 50%; background: linear-gradient(45deg, #4a90e2, transparent); top: 35%; left: 70%; animation: pulse 6s ease-in-out infinite;"></div>
+    <div style="position: absolute; width: 140px; height: 140px; border-radius: 25px; transform: rotate(60deg); background: linear-gradient(45deg, #004aad, transparent); top: 65%; right: 5%; animation: float 8s ease-in-out infinite;"></div>
+  </div>
+
+  <!-- Enhanced Header with modern navigation -->
+  <header style="background: linear-gradient(-45deg, #fdf6ee, #f6ede4, #fdf6ee, #f6ede4); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05); border-bottom: 1px solid rgba(0, 0, 0, 0.05);">
+    <div class="logo-container" style="display: flex; align-items: center;">
+      <a href="#" style="display: flex; align-items: center; text-decoration: none; color: #000;">
+        <span style="font-size: 1.8rem; font-weight: 700; background: linear-gradient(45deg, #004aad, #000); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">LEDMA</span>
+      </a>
+    </div>
+    
+    <nav style="display: flex; align-items: center;">
+      <div class="nav-links" style="display: flex; margin-right: 1.5rem;">
+        <div class="header-dropdown" style="position: relative; margin: 0 15px;">
+          <a href="#features" style="color: #333; text-decoration: none; font-weight: 500; transition: all 0.3s ease; display: flex; align-items: center; padding: 8px 5px; position: relative;">
+            <span data-en="Tools" data-es="Herramientas">Tools</span>
+            <i class="fas fa-chevron-down" style="font-size: 0.7rem; margin-left: 5px;"></i>
+            <span style="position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: linear-gradient(45deg, #004aad, #4a90e2); transition: width 0.3s ease;"></span>
+          </a>
+          <div class="header-dropdown-content" style="position: absolute; top: 100%; left: -15px; background: white; min-width: 180px; border-radius: 8px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1); opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; padding: 10px 0; margin-top: 10px;">
+            <a href="text-reader.html" target="_blank" style="display: flex; align-items: center; padding: 10px 20px; color: #333; text-decoration: none; transition: all 0.2s ease;">
+              <i class="fas fa-headphones" style="margin-right: 10px; width: 20px; color: #004aad;"></i>
+              <span data-en="Text Reader" data-es="Lector de Texto">Text Reader</span>
+            </a>
+            <a href="photo-editor.html" style="display: flex; align-items: center; padding: 10px 20px; color: #333; text-decoration: none; transition: all 0.2s ease;">
+              <i class="fas fa-image" style="margin-right: 10px; width: 20px; color: #004aad;"></i>
+              <span data-en="Photo Editor" data-es="Editor de Fotos">Photo Editor</span>
+            </a>
+            <a href="audio-editor.html" style="display: flex; align-items: center; padding: 10px 20px; color: #333; text-decoration: none; transition: all 0.2s ease;">
+              <i class="fas fa-music" style="margin-right: 10px; width: 20px; color: #004aad;"></i>
+              <span data-en="Audio Editor" data-es="Editor de Audio">Audio Editor</span>
+            </a>
+            <a href="file-converter.html" style="display: flex; align-items: center; padding: 10px 20px; color: #333; text-decoration: none; transition: all 0.2s ease;">
+              <i class="fas fa-file-alt" style="margin-right: 10px; width: 20px; color: #004aad;"></i>
+              <span data-en="File Converter" data-es="Conversor de Archivos">File Converter</span>
+            </a>
+            <a href="reel-studio.html" style="display: flex; align-items: center; padding: 10px 20px; color: #333; text-decoration: none; transition: all 0.2s ease;">
+              <i class="fas fa-video" style="margin-right: 10px; width: 20px; color: #004aad;"></i>
+              <span data-en="ReelStudio Lab" data-es="ReelStudio Lab">ReelStudio Lab</span>
+            </a>
+          </div>
+        </div>
+        
+        <a href="#about" style="color: #333; text-decoration: none; font-weight: 500; transition: all 0.3s ease; padding: 8px 5px; margin: 0 15px; position: relative;">
+          <span data-en="About" data-es="Acerca de">About</span>
+          <span style="position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: linear-gradient(45deg, #004aad, #4a90e2); transition: width 0.3s ease;"></span>
+        </a>
+        
+        <a href="#contact" style="color: #333; text-decoration: none; font-weight: 500; transition: all 0.3s ease; padding: 8px 5px; margin: 0 15px; position: relative;">
+          <span data-en="Contact" data-es="Contacto">Contact</span>
+          <span style="position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: linear-gradient(45deg, #004aad, #4a90e2); transition: width 0.3s ease;"></span>
+        </a>
+      </div>
+      
+      <div class="nav-actions" style="display: flex; align-items: center;">
+        <button class="header-lang-btn" onclick="toggleLanguage()" style="background: transparent; color: #333; border: 1px solid rgba(0, 0, 0, 0.1); padding: 0.5rem 0.8rem; border-radius: 8px; cursor: pointer; font-weight: 600; margin-right: 1rem; transition: all 0.3s ease; display: flex; align-items: center;">
+          <i class="fas fa-globe" style="margin-right: 5px; font-size: 0.8rem;"></i>
+          ES
+        </button>
+        
+        <!-- 🔥 GUEST USER SECTION (when not logged in) -->
+        <div id="guest-section">
+          <button class="header-signin-btn" onclick="openAuthModal()" style="background: linear-gradient(to right, #004aad, #2e7ad1); color: white; font-weight: 500; border: none; padding: 0.5rem 1.2rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease;">
+            <span data-en="Access" data-es="Acceder">Access</span>
+            <i class="fas fa-arrow-right" style="margin-left: 8px; font-size: 0.8rem;"></i>
+          </button>
+        </div>
+
+        <!-- 🔥 LOGGED IN USER SECTION (initially hidden) -->
+        <div id="user-section" class="user-status" style="display: none;">
+          <div class="credits-display">
+            <i class="fas fa-coins"></i>
+            <span id="user-credits">0</span> créditos
+          </div>
+          <div class="daily-usage">
+            <span id="daily-usage">Descarga diaria: 0/1</span>
+          </div>
+          <div class="user-menu">
+            <div class="user-avatar" id="user-avatar">
+              <span id="user-initials">U</span>
+            </div>
+            <div class="user-dropdown">
+              <a href="#" onclick="openProfileModal()">
+                <i class="fas fa-user"></i>
+                <span data-en="My Profile" data-es="Mi Perfil">Mi Perfil</span>
+              </a>
+              <a href="#" onclick="openCreditsModal()">
+                <i class="fas fa-shopping-cart"></i>
+                <span data-en="Buy Credits" data-es="Comprar Créditos">Comprar Créditos</span>
+              </a>
+              <a href="#" onclick="showDownloadHistory()">
+                <i class="fas fa-history"></i>
+                <span data-en="History" data-es="Historial">Historial</span>
+              </a>
+              <a href="#" onclick="logoutUser()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span data-en="Logout" data-es="Cerrar Sesión">Cerrar Sesión</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+    
+    <!-- Mobile menu button (hidden on desktop) -->
+    <div class="mobile-menu-btn" style="display: none; cursor: pointer;">
+      <i class="fas fa-bars" style="font-size: 1.5rem; color: #333;"></i>
+    </div>
+  </header>
+
+  <!-- Enhanced Hero Section -->
+  <section class="hero" style="position: relative; overflow: hidden;">
+    <div style="max-width: 900px; padding: 0 20px; margin: 0 auto; text-align: center; position: relative; z-index: 2;">
+      <h2 style="font-size: 3.5rem; margin-bottom: 1.5rem; background: linear-gradient(45deg, #004aad, #000); -webkit-background-clip: text; color: transparent; font-weight: 700;">Smart Tools for Bright Students</h2>
+      
+      <p data-en="LEDMA gives you free access to powerful educational and creative tools to enhance your learning and start earning money." data-es="LEDMA te ofrece acceso gratuito a potentes herramientas escolares y creativas para mejorar tu aprendizaje y comenzar a ganar dinero." style="font-size: 1.3rem; max-width: 700px; margin: 0 auto 2rem auto; line-height: 1.6;">
+        LEDMA gives you free access to powerful educational and creative tools to enhance your learning and start earning money.
+      </p>
+      
+      <div class="cta-buttons" style="display: flex; gap: 20px; justify-content: center; margin-top: 2rem;">
+        <a href="#features" class="cta-primary">
+          <span data-en="Explore Tools" data-es="Explorar Herramientas">Explore Tools</span>
+        </a>
+        <a href="#about" class="cta-secondary">
+          <span data-en="Learn More" data-es="Saber Más">Learn More</span>
+        </a>
+      </div>
+      
+      <div class="hero-badges">
+        <div class="badge">
+          <i class="fas fa-check-circle" style="color: #004aad;"></i>
+          <span data-en="100% Free Tools" data-es="Herramientas 100% Gratuitas">100% Free Tools</span>
+        </div>
+        <div class="badge">
+          <i class="fas fa-bolt" style="color: #004aad;"></i>
+          <span data-en="No Registration Required" data-es="Sin Registro Requerido">No Registration Required</span>
+        </div>
+        <div class="badge">
+          <i class="fas fa-lock" style="color: #004aad;"></i>
+          <span data-en="Secure & Private" data-es="Seguro y Privado">Secure & Private</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features" id="mission-vision">
+    <h3 data-en="Our Mission & Vision" data-es="Nuestra Misión y Visión">Our Mission & Vision</h3>
+    <div style="max-width: 900px; margin: 0 auto; text-align: center;">
+      <p style="margin-bottom: 1.5rem;" data-en="Our mission is to empower students through access to high-quality digital tools that support education and creativity." data-es="Nuestra misión es empoderar a los estudiantes mediante el acceso a herramientas digitales de alta calidad que apoyen la educación y la creatividad.">
+        Our mission is to empower students through access to high-quality digital tools that support education and creativity.
+      </p>
+      <p data-en="Our vision is to become the leading digital companion for students worldwide, making education more inclusive, accessible, and profitable." data-es="Nuestra visión es convertirnos en el compañero digital líder para estudiantes en todo el mundo, haciendo la educación más inclusiva, accesible y rentable.">
+        Our vision is to become the leading digital companion for students worldwide, making education more inclusive, accessible, and profitable.
+      </p>
+    </div>
+  </section>
+
+  <!-- FIRST REORGANIZATION: "What can you do with LEDMA?" and "LEDMA in Numbers" side by side -->
+  <div class="dual-section">
+    <!-- Features section on the left -->
+    <section class="features" id="features">
+      <h3 data-en="What can you do with LEDMA?" data-es="¿Qué puedes hacer con LEDMA?">What can you do with LEDMA?</h3>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <i class="fas fa-headphones"></i>
+          <h4>Text Reader</h4>
+          <p data-en="Convert your notes into audio and study on the go." data-es="Convierte tus notas en audio y estudia en cualquier lugar.">Convert your notes into audio and study on the go.</p>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-image"></i>
+          <h4>Photo Editor</h4>
+          <p data-en="Edit images for assignments or social media posts." data-es="Edita imágenes para tareas o publicaciones en redes sociales.">Edit images for assignments or social media posts.</p>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-music"></i>
+          <h4>Audio Editor</h4>
+          <p data-en="Record and edit sound for podcasts or reels." data-es="Graba y edita sonido para podcasts o reels.">Record and edit sound for podcasts or reels.</p>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-file-alt"></i>
+          <h4>File Converter</h4>
+          <p data-en="Convert between document formats easily (PDF, Word, etc.)." data-es="Convierte fácilmente entre formatos de documentos (PDF, Word, etc.).">Convert between document formats easily (PDF, Word, etc.).</p>
+        </div>
+        <div class="feature-item">
+          <i class="fas fa-video"></i>
+          <h4>ReelStudio Lab</h4>
+          <p data-en="Create short videos like reels or TikToks with ease." data-es="Crea videos cortos como reels o TikToks con facilidad.">Create short videos like reels or TikToks with ease.</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Stats section on the right -->
+    <section class="stats" id="stats" style="padding: 3rem 2rem; text-align: center; background-color: transparent;">
+      <div style="max-width: 1000px; margin: 0 auto;">
+        <h3 data-en="LEDMA in Numbers" data-es="LEDMA en Números" style="margin-bottom: 2rem;">LEDMA in Numbers</h3>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+          <div class="stat-item" style="padding: 1.5rem; border-radius: 15px; background-color: rgba(0, 74, 173, 0.05); transition: transform 0.3s;">
+            <i class="fas fa-users" style="font-size: 2.5rem; color: #004aad; margin-bottom: 1rem;"></i>
+            <h4 style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">10,000+</h4>
+            <p data-en="Active Students" data-es="Estudiantes Activos">Active Students</p>
+          </div>
+          <div class="stat-item" style="padding: 1.5rem; border-radius: 15px; background-color: rgba(0, 74, 173, 0.05); transition: transform 0.3s;">
+            <i class="fas fa-file-audio" style="font-size: 2.5rem; color: #004aad; margin-bottom: 1rem;"></i>
+            <h4 style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">250,000+</h4>
+            <p data-en="Text Conversions" data-es="Conversiones de Texto">Text Conversions</p>
+          </div>
+          <div class="stat-item" style="padding: 1.5rem; border-radius: 15px; background-color: rgba(0, 74, 173, 0.05); transition: transform 0.3s;">
+            <i class="fas fa-clock" style="font-size: 2.5rem; color: #004aad; margin-bottom: 1rem;"></i>
+            <h4 style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">50,000+</h4>
+            <p data-en="Hours Saved" data-es="Horas Ahorradas">Hours Saved</p>
+          </div>
+          <div class="stat-item" style="padding: 1.5rem; border-radius: 15px; background-color: rgba(0, 74, 173, 0.05); transition: transform 0.3s;">
+            <i class="fas fa-globe" style="font-size: 2.5rem; color: #004aad; margin-bottom: 1rem;"></i>
+            <h4 style="font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">20+</h4>
+            <p data-en="Countries" data-es="Países">Countries</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <section class="testimonials">
+    <h3 data-en="What Our Users Say" data-es="Lo Que Dicen Nuestros Usuarios">What Our Users Say</h3>
+    <div class="feature-grid">
+      <div class="feature-item">
+        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Andrea G." style="width: 80px; height: 80px;">
+        <h4>Andrea G.</h4>
+        <p data-en="LEDMA helped me convert my notes to audio. Now I study while walking. Amazing!" data-es="LEDMA me ayudó a convertir mis notas en audios y ahora estudio mientras camino. ¡Increíble!">LEDMA helped me convert my notes to audio. Now I study while walking. Amazing!</p>
+        <small>2025-04-12</small>
+      </div>
+      <div class="feature-item">
+        <img src="https://randomuser.me/api/portraits/men/33.jpg" alt="Carlos R." style="width: 80px; height: 80px;">
+        <h4>Carlos R.</h4>
+        <p data-en="I made my first reel with ReelStudio. LEDMA is a gem for students." data-es="Con ReelStudio pude hacer mi primer reel profesional. LEDMA es una joya para estudiantes.">I made my first reel with ReelStudio. LEDMA is a gem for students.</p>
+        <small>2025-04-25</small>
+      </div>
+      <div class="feature-item">
+        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Sofía M." style="border-radius: 50%; width: 80px; height: 80px;">
+        <h4>Sofía M.</h4>
+        <p data-en="I love the photo editor. I use it for homework and memes. Thanks LEDMA!" data-es="Me encanta el editor de fotos, lo uso para tareas y memes. ¡Gracias LEDMA!">I love the photo editor. I use it for homework and memes. Thanks LEDMA!</p>
+        <small>2025-05-01</small>
+      </div>
+      <div class="feature-item">
+        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Luis H." style="border-radius: 50%; width: 80px; height: 80px;">
+        <h4>Luis H.</h4>
+        <p data-en="The audio editor is awesome. I used it for my podcast." data-es="El editor de audio es genial. Lo usé para mi podcast.">The audio editor is awesome. I used it for my podcast.</p>
+        <small>2025-05-08</small>
+      </div>
+      <div class="feature-item">
+        <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Marta Z." style="border-radius: 50%; width: 80px; height: 80px;">
+        <h4>Marta Z.</h4>
+        <p data-en="LEDMA helped me organize my school projects visually." data-es="LEDMA me ayudó a organizar visualmente mis proyectos escolares.">LEDMA helped me organize my school projects visually.</p>
+        <small>2025-05-10</small>
+      </div>
+    </div>
+  </section>
+
+  <section class="features" id="blog">
+    <h3 data-en="Articles" data-es="Artículos" style="text-align: center; font-size: 2.2rem;">Articles</h3>
+    <div class="feature-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; padding: 2rem 0;">
+      <a href="text-reader-blog.html" style="text-decoration: none; color: inherit;">
+        <div class="feature-item" style="padding: 1.5rem; border-radius: 20px;">
+          <img src="https://img.icons8.com/ios-filled/100/004aad/audiobook.png" alt="Text Reader" style="width: 60px; height: 60px; margin-bottom: 1rem;">
+          <h4 style="font-weight: 600; font-size: 1.1rem; padding: 0.5rem 0;" data-en="How to Use the Text Reader" data-es="Cómo Usar el Lector de Texto">How to Use the Text Reader</h4>
+          <p data-en="Discover how to turn long readings into audio to study anywhere, anytime." data-es="Descubre cómo convertir lecturas largas en audio para estudiar donde sea y cuando sea.">Discover how to turn long readings into audio to study anywhere, anytime.</p>
+        </div>
+      </a>
+      <a href="photo-editor-blog.html" style="text-decoration: none; color: inherit;">
+        <div class="feature-item" style="background: transparent; padding: 1.5rem; border-radius: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.1);">
+          <img src="https://img.icons8.com/ios-filled/100/004aad/image.png" alt="Photo Editor" style="width: 60px; height: 60px; border-radius: 12px; margin-bottom: 1rem;">
+          <h4 data-en="Boost Your Projects with the Photo Editor" data-es="Mejora tus Proyectos con el Editor de Fotos">Boost Your Projects with the Photo Editor</h4>
+          <p data-en="Learn quick tricks to edit school infographics and visual content." data-es="Aprende trucos rápidos para editar infografías escolares y contenido visual.">Learn quick tricks to edit school infographics and visual content.</p>
+        </div>
+      </a>
+      <a href="audio-editor-blog.html" style="text-decoration: none; color: inherit;">
+        <div class="feature-item" style="background: transparent; padding: 1.5rem; border-radius: 20px; box-shadow: 0 8px 16px rgba(0,0,0,0.1);">
+          <img src="https://img.icons8.com/ios-filled/100/004aad/microphone.png" alt="Audio Editor" style="width: 60px; height: 60px; border-radius: 12px; margin-bottom: 1rem;">
+          <h4 data-en="Record like a Pro: Audio Editor Guide" data-es="Graba como un Pro: Guía del Editor de Audio">Record like a Pro: Audio Editor Guide</h4>
+          <p data-en="From trimming to adding effects, start making great audio for presentations." data-es="Desde recortar hasta agregar efectos, empieza a hacer excelente audio para tus presentaciones.">From trimming to adding effects, start making great audio for presentations.</p>
+        </div>
+      </a>
+    </div>
+  </section>
+  
+  <!-- SECOND REORGANIZATION: FAQs and About Us side by side -->
+  <div class="dual-section">
+    <!-- FAQ section on the left -->
+    <section class="features faq" id="faq" style="background-color: transparent;">
+      <h3 data-en="Frequently Asked Questions" data-es="Preguntas Frecuentes" style="text-align: center; font-size: 2rem;">Frequently Asked Questions</h3>
+      <div style="max-width: 800px; margin: 0 auto;">
+        <details style="margin: 1rem 0; background: transparent; padding: 1rem;">
+          <summary style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; font-size: 1rem; padding: 0.5rem 0;"><strong data-en="What is LEDMA?" data-es="¿Qué es LEDMA?">What is LEDMA?</strong><i class='fas fa-chevron-down'></i></summary>
+          <p data-en="LEDMA is a web platform that offers students free and affordable creative tools for school and content creation." data-es="LEDMA es una plataforma web que ofrece herramientas creativas gratuitas y accesibles para estudiantes.">LEDMA is a web platform that offers students free and affordable creative tools for school and content creation.</p>
+        </details>
+        <details style="margin: 1rem 0; background: transparent; padding: 1rem;">
+          <summary style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; font-size: 1rem; padding: 0.5rem 0;"><strong data-en="Is LEDMA free?" data-es="¿LEDMA es gratis?">Is LEDMA free?</strong><i class='fas fa-chevron-down'></i></summary>
+          <p data-en="Yes! You get 2 free audio conversions per day and access to all tools." data-es="¡Sí! Tienes 2 conversiones de audio gratuitas al día y acceso a todas las herramientas.">Yes! You get 1 free download per day and access to all tools.</p>
+        </details>
+        <details style="margin: 1rem 0; background: transparent; padding: 1rem;">
+          <summary style="display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; font-size: 1rem; padding: 0.5rem 0;"><strong data-en="Can I use LEDMA on mobile?" data-es="¿Puedo usar LEDMA en móvil?">Can I use LEDMA on mobile?</strong><i class='fas fa-chevron-down'></i></summary>
+          <p data-en="Yes, LEDMA is fully responsive and works on all devices." data-es="Sí, LEDMA es totalmente compatible con dispositivos móviles.">Yes, LEDMA is fully responsive and works on all devices.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- Enhanced About Us section on the right -->
+    <section class="features" id="about" style="opacity: 0; transform: translateY(20px); animation: fadeInUp 1s ease forwards; animation-delay: 0.9s;">
+      <h3 data-en="About Us" data-es="Sobre Nosotros" style="text-align: center; margin-bottom: 2rem;">About Us</h3>
+      
+      <!-- Our Story -->
+      <div style="background: rgba(0, 74, 173, 0.05); padding: 2rem; border-radius: 15px; margin-bottom: 2rem;">
+        <h4 style="color: #004aad; margin-bottom: 1rem; font-size: 1.3rem; text-align: center;" data-en="Our Story" data-es="Nuestra Historia">Our Story</h4>
+        <p style="text-align: center; line-height: 1.6;" data-en="LEDMA was born from a simple but powerful idea: every student deserves access to professional-grade tools, regardless of their economic background. Founded by a group of university students who struggled with expensive software licenses, we decided to create a platform where quality tools are accessible to all." data-es="LEDMA nació de una idea simple pero poderosa: todo estudiante merece acceso a herramientas de nivel profesional, sin importar su situación económica. Fundada por un grupo de estudiantes universitarios que lucharon con costosas licencias de software, decidimos crear una plataforma donde las herramientas de calidad sean accesibles para todos.">
+          LEDMA was born from a simple but powerful idea: every student deserves access to professional-grade tools, regardless of their economic background. Founded by a group of university students who struggled with expensive software licenses, we decided to create a platform where quality tools are accessible to all.
+        </p>
+      </div>
+
+      <!-- Our Values -->
+      <div style="margin-bottom: 2rem;">
+        <h4 style="color: #004aad; margin-bottom: 1.5rem; font-size: 1.3rem; text-align: center;" data-en="Our Core Values" data-es="Nuestros Valores Centrales">Our Core Values</h4>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+          <div style="text-align: center; padding: 1rem;">
+            <i class="fas fa-heart" style="font-size: 2rem; color: #004aad; margin-bottom: 0.5rem;"></i>
+            <h5 style="margin-bottom: 0.5rem;" data-en="Accessibility" data-es="Accesibilidad">Accessibility</h5>
+            <p style="font-size: 0.9rem;" data-en="Education should never be limited by economic barriers" data-es="La educación nunca debe limitarse por barreras económicas">Education should never be limited by economic barriers</p>
+          </div>
+          <div style="text-align: center; padding: 1rem;">
+            <i class="fas fa-rocket" style="font-size: 2rem; color: #004aad; margin-bottom: 0.5rem;"></i>
+            <h5 style="margin-bottom: 0.5rem;" data-en="Innovation" data-es="Innovación">Innovation</h5>
+            <p style="font-size: 0.9rem;" data-en="Constantly improving to meet student needs" data-es="Mejorando constantemente para satisfacer las necesidades estudiantiles">Constantly improving to meet student needs</p>
+          </div>
+          <div style="text-align: center; padding: 1rem;">
+            <i class="fas fa-users" style="font-size: 2rem; color: #004aad; margin-bottom: 0.5rem;"></i>
+            <h5 style="margin-bottom: 0.5rem;" data-en="Community" data-es="Comunidad">Community</h5>
+            <p style="font-size: 0.9rem;" data-en="Built by students, for students" data-es="Construido por estudiantes, para estudiantes">Built by students, for students</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- What Makes Us Different -->
+      <div style="background: linear-gradient(135deg, rgba(0, 74, 173, 0.1), rgba(240, 219, 79, 0.1)); padding: 2rem; border-radius: 15px; margin-bottom: 2rem;">
+        <h4 style="color: #004aad; margin-bottom: 1rem; font-size: 1.3rem; text-align: center;" data-en="What Makes Us Different" data-es="Lo Que Nos Hace Diferentes">What Makes Us Different</h4>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+          <div style="display: flex; align-items: flex-start; gap: 1rem;">
+            <i class="fas fa-gift" style="color: #004aad; margin-top: 0.2rem;"></i>
+            <div>
+              <h5 style="margin-bottom: 0.5rem;" data-en="Completely Free" data-es="Completamente Gratuito">Completely Free</h5>
+              <p style="font-size: 0.9rem;" data-en="No hidden costs, no premium tiers for basic features" data-es="Sin costos ocultos, sin niveles premium para funciones básicas">No hidden costs, no premium tiers for basic features</p>
+            </div>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 1rem;">
+            <i class="fas fa-shield-alt" style="color: #004aad; margin-top: 0.2rem;"></i>
+            <div>
+              <h5 style="margin-bottom: 0.5rem;" data-en="Privacy First" data-es="Privacidad Primero">Privacy First</h5>
+              <p style="font-size: 0.9rem;" data-en="Your files stay private, no data collection" data-es="Tus archivos se mantienen privados, sin recolección de datos">Your files stay private, no data collection</p>
+            </div>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 1rem;">
+            <i class="fas fa-mobile-alt" style="color: #004aad; margin-top: 0.2rem;"></i>
+            <div>
+              <h5 style="margin-bottom: 0.5rem;" data-en="Works Everywhere" data-es="Funciona en Todas Partes">Works Everywhere</h5>
+              <p style="font-size: 0.9rem;" data-en="Web-based, no downloads or installations needed" data-es="Basado en web, sin descargas o instalaciones necesarias">Web-based, no downloads or installations needed</p>
+            </div>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: 1rem;">
+            <i class="fas fa-graduation-cap" style="color: #004aad; margin-top: 0.2rem;"></i>
+            <div>
+              <h5 style="margin-bottom: 0.5rem;" data-en="Student-Focused" data-es="Enfocado en Estudiantes">Student-Focused</h5>
+              <p style="font-size: 0.9rem;" data-en="Designed specifically for academic and creative needs" data-es="Diseñado específicamente para necesidades académicas y creativas">Designed specifically for academic and creative needs</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Our Team -->
+      <div style="margin-bottom: 2rem;">
+        <h4 style="color: #004aad; margin-bottom: 1.5rem; font-size: 1.3rem; text-align: center;" data-en="Meet Our Team" data-es="Conoce Nuestro Equipo">Meet Our Team</h4>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
+          <div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.5); border-radius: 15px;">
+            <img src="/api/placeholder/120/120" alt="Alex Rodriguez" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1rem; object-fit: cover;">
+            <h5 style="margin-bottom: 0.3rem;">Alex Rodriguez</h5>
+            <p style="color: #004aad; font-size: 0.9rem; margin-bottom: 0.5rem;" data-en="Co-Founder & Developer" data-es="Co-Fundador y Desarrollador">Co-Founder & Developer</p>
+            <p style="font-size: 0.8rem;" data-en="Computer Science student passionate about accessible technology" data-es="Estudiante de Ciencias de la Computación apasionado por la tecnología accesible">Computer Science student passionate about accessible technology</p>
+          </div>
+          <div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.5); border-radius: 15px;">
+            <img src="/api/placeholder/120/120" alt="Maria Silva" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1rem; object-fit: cover;">
+            <h5 style="margin-bottom: 0.3rem;">Maria Silva</h5>
+            <p style="color: #004aad; font-size: 0.9rem; margin-bottom: 0.5rem;" data-en="Co-Founder & Design Lead" data-es="Co-Fundadora y Líder de Diseño">Co-Founder & Design Lead</p>
+            <p style="font-size: 0.8rem;" data-en="Graphic Design student focused on user experience" data-es="Estudiante de Diseño Gráfico enfocada en experiencia de usuario">Graphic Design student focused on user experience</p>
+          </div>
+          <div style="text-align: center; padding: 1rem; background: rgba(255, 255, 255, 0.5); border-radius: 15px;">
+            <img src="/api/placeholder/120/120" alt="Carlos Chen" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 1rem; object-fit: cover;">
+            <h5 style="margin-bottom: 0.3rem;">Carlos Chen</h5>
+            <p style="color: #004aad; font-size: 0.9rem; margin-bottom: 0.5rem;" data-en="Technical Lead" data-es="Líder Técnico">Technical Lead</p>
+            <p style="font-size: 0.8rem;" data-en="Engineering student specializing in web technologies" data-es="Estudiante de Ingeniería especializado en tecnologías web">Engineering student specializing in web technologies</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Our Future -->
+      <div style="background: rgba(240, 219, 79, 0.1); padding: 2rem; border-radius: 15px;">
+        <h4 style="color: #004aad; margin-bottom: 1rem; font-size: 1.3rem; text-align: center;" data-en="Looking Ahead" data-es="Mirando Hacia el Futuro">Looking Ahead</h4>
+        <p style="text-align: center; line-height: 1.6; margin-bottom: 1rem;" data-en="We're constantly working to expand our toolkit and reach more students worldwide. Our roadmap includes AI-powered study assistants, collaborative features, and mobile apps to make learning even more accessible." data-es="Trabajamos constantemente para expandir nuestro conjunto de herramientas y llegar a más estudiantes en todo el mundo. Nuestro plan incluye asistentes de estudio con IA, funciones colaborativas y aplicaciones móviles para hacer el aprendizaje aún más accesible.">
+          We're constantly working to expand our toolkit and reach more students worldwide. Our roadmap includes AI-powered study assistants, collaborative features, and mobile apps to make learning even more accessible.
+        </p>
+        <div style="text-align: center;">
+          <a href="#contact" style="background: linear-gradient(45deg, #004aad, #0067b8); color: white; padding: 0.6rem 1.5rem; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;" data-en="Join Our Journey" data-es="Únete a Nuestro Viaje">Join Our Journey</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer style="background-color: transparent; color: #000; padding: 4rem 2rem;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem; max-width: 1200px; margin: 0 auto;">
+      <div style="flex: 1 1 200px;">
+        <img src="logo-transparent.png" alt="LEDMA Logo" style="height: 40px; margin-bottom: 1rem;">
+        <p data-en="© 2025 LEDMA. Made for students, by students." data-es="© 2025 LEDMA. Hecho para estudiantes, por estudiantes.">&copy; 2025 LEDMA. Made for students, by students.</p>
+      </div>
+      <div style="flex: 1 1 150px;">
+        <h4 style="margin-bottom: 1rem; font-size: 1rem; color: #004aad;">Product</h4>
+        <p>Text Reader</p>
+        <p>Photo Editor</p>
+        <p>Audio Editor</p>
+        <p>File Converter</p>
+        <p>ReelStudio Lab</p>
+      </div>
+      <div style="flex: 1 1 150px;">
+        <h4 style="margin-bottom: 1rem; font-size: 1rem; color: #004aad;">Learn More</h4>
+        <p>How it works</p>
+        <p>Tips & Tutorials</p>
+        <p>FAQs</p>
+        <p>Content Ideas</p>
+      </div>
+      <div style="flex: 1 1 150px;">
+        <h4 style="margin-bottom: 1rem; font-size: 1rem; color: #004aad;">Company</h4>
+        <p>About Us</p>
+        <p>Contact</p>
+        <p>Terms</p>
+        <p>Privacy</p>
+      </div>
+      <div style="flex: 1 1 150px;">
+        <h4 style="margin-bottom: 1rem; font-size: 1rem; color: #004aad;">Social</h4>
+        <a href="#" style="text-decoration: none; color: #333;"><i class="fab fa-instagram"></i> Instagram</a><br>
+        <a href="#" style="text-decoration: none; color: #333;"><i class="fab fa-tiktok"></i> TikTok</a>
+      </div>
+    </div>
+    <div style="text-align: center; margin-top: 2rem; font-size: 0.9rem;">
+      <p data-en="All rights reserved." data-es="Todos los derechos reservados.">All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- 🔥 AUTH MODAL (Login/Register) -->
+  <div id="auth-modal" class="modal-overlay">
+    <div class="modal">
+      <button class="modal-close" onclick="closeAuthModal()">&times;</button>
+      
+      <!-- Login Form -->
+      <div id="login-form">
+        <div class="modal-header">
+          <h2 data-en="Welcome Back!" data-es="¡Bienvenido de nuevo!">Welcome Back!</h2>
+          <p data-en="Sign in to access your premium features" data-es="Inicia sesión para acceder a tus funciones premium">Sign in to access your premium features</p>
+        </div>
+        
+        <div id="login-error" class="error-message" style="display: none;"></div>
+        
+        <form onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label data-en="Email" data-es="Correo">Email</label>
+            <input type="email" id="login-email" required>
+          </div>
+          <div class="form-group">
+            <label data-en="Password" data-es="Contraseña">Password</label>
+            <input type="password" id="login-password" required>
+          </div>
+          <button type="submit" class="btn-primary" data-en="Sign In" data-es="Iniciar Sesión">Sign In</button>
+        </form>
+        
+        <div class="modal-switch">
+          <span data-en="Don't have an account?" data-es="¿No tienes cuenta?">Don't have an account?</span>
+          <a href="#" onclick="showRegisterForm()" data-en="Sign up" data-es="Regístrate">Sign up</a>
+        </div>
+      </div>
+      
+      <!-- Register Form -->
+      <div id="register-form" style="display: none;">
+        <div class="modal-header">
+          <h2 data-en="Join LEDMA!" data-es="¡Únete a LEDMA!">Join LEDMA!</h2>
+          <p data-en="Create your account and get 1 free download daily" data-es="Crea tu cuenta y obtén 1 descarga gratis diaria">Create your account and get 1 free download daily</p>
+        </div>
+        
+        <div id="register-error" class="error-message" style="display: none;"></div>
+        <div id="register-success" class="success-message" style="display: none;"></div>
+        
+        <form onsubmit="handleRegister(event)">
+          <div class="form-group">
+            <label data-en="Full Name" data-es="Nombre Completo">Full Name</label>
+            <input type="text" id="register-name" required>
+          </div>
+          <div class="form-group">
+            <label data-en="Email" data-es="Correo">Email</label>
+            <input type="email" id="register-email" required>
+          </div>
+          <div class="form-group">
+            <label data-en="Password" data-es="Contraseña">Password</label>
+            <input type="password" id="register-password" required minlength="6">
+          </div>
+          <button type="submit" class="btn-primary" data-en="Create Account" data-es="Crear Cuenta">Create Account</button>
+        </form>
+        
+        <div class="modal-switch">
+          <span data-en="Already have an account?" data-es="¿Ya tienes cuenta?">Already have an account?</span>
+          <a href="#" onclick="showLoginForm()" data-en="Sign in" data-es="Inicia sesión">Sign in</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔥 CREDITS MODAL (Buy Credits) -->
+  <div id="credits-modal" class="modal-overlay">
+    <div class="modal" style="max-width: 500px;">
+      <button class="modal-close" onclick="closeCreditsModal()">&times;</button>
+      
+      <div class="modal-header">
+        <h2 data-en="Buy Credits" data-es="Comprar Créditos">Buy Credits</h2>
+        <p data-en="Get premium quality downloads with our affordable credit packages" data-es="Obtén descargas de calidad premium con nuestros paquetes de créditos accesibles">Get premium quality downloads with our affordable credit packages</p>
+      </div>
+      
+      <div class="credits-packages">
+        <div class="credit-package" onclick="selectPackage('basic')">
+          <div class="package-credits">1,000</div>
+          <div class="package-price">$9.99 CAD</div>
+          <div class="package-value">~67 minutes of audio</div>
+          <button class="btn-secondary">Select Basic</button>
+        </div>
+        
+        <div class="credit-package popular" onclick="selectPackage('popular')">
+          <div class="package-credits">6,000</div>
+          <div class="package-price">$49.99 CAD</div>
+          <div class="package-discount">Save 20%</div>
+          <div class="package-value">~400 minutes of audio</div>
+          <button class="btn-primary">Select Popular</button>
+        </div>
+        
+        <div class="credit-package" onclick="selectPackage('pro')">
+          <div class="package-credits">15,000</div>
+          <div class="package-price">$99.99 CAD</div>
+          <div class="package-discount">Save 35%</div>
+          <div class="package-value">~1,000 minutes of audio</div>
+          <button class="btn-secondary">Select Pro</button>
+        </div>
+      </div>
+      
+      <div style="text-align: center; margin-top: 1.5rem; padding: 1rem; background: rgba(0, 74, 173, 0.05); border-radius: 8px;">
+        <p style="font-size: 0.9rem; color: #666;" data-en="Secure payment powered by Stripe. Credits never expire." data-es="Pago seguro con Stripe. Los créditos nunca expiran.">Secure payment powered by Stripe. Credits never expire.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔥 UPGRADE MODAL (for free users trying to download) -->
+  <div id="upgrade-modal" class="modal-overlay">
+    <div class="modal">
+      <button class="modal-close" onclick="closeUpgradeModal()">&times;</button>
+      
+      <div class="modal-header">
+        <h2 data-en="Premium Download Available" data-es="Descarga Premium Disponible">Premium Download Available</h2>
+        <p data-en="This audio was generated with basic quality. Upgrade to premium for crystal-clear downloads!" data-es="Este audio se generó con calidad básica. ¡Mejora a premium para descargas de calidad cristalina!">This audio was generated with basic quality. Upgrade to premium for crystal-clear downloads!</p>
+      </div>
+      
+      <div style="background: rgba(0, 74, 173, 0.05); padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
+        <h4 style="color: #004aad; margin-bottom: 1rem;">Premium Features:</h4>
+        <div style="display: grid; gap: 0.8rem;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-check-circle" style="color: #4caf50;"></i>
+            <span>Ultra-realistic voice quality</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-check-circle" style="color: #4caf50;"></i>
+            <span>High-quality MP3/WAV downloads</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-check-circle" style="color: #4caf50;"></i>
+            <span>No watermarks or limits</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-check-circle" style="color: #4caf50;"></i>
+            <span>Multiple voice options</span>
+          </div>
+        </div>
+      </div>
+      
+      <div style="text-align: center;">
+        <div style="margin-bottom: 1rem;">
+          <span style="font-size: 1.2rem; color: #666;">Cost: </span>
+          <span id="upgrade-cost" style="font-size: 1.5rem; font-weight: 600; color: #004aad;">15 créditos</span>
+        </div>
+        
+        <button class="btn-primary" onclick="generatePremiumAudio()">
+          <i class="fas fa-crown" style="margin-right: 8px;"></i>
+          <span data-en="Generate Premium Audio" data-es="Generar Audio Premium">Generate Premium Audio</span>
+        </button>
+        
+        <div style="margin-top: 1rem;">
+          <a href="#" onclick="openCreditsModal(); closeUpgradeModal();" style="color: #004aad; text-decoration: none; font-weight: 600;" data-en="Don't have enough credits? Buy more" data-es="¿No tienes suficientes créditos? Compra más">Don't have enough credits? Buy more</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔥 FIREBASE CONFIGURATION -->
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-analytics.js";
+    
+    // 🔥 AGREGAMOS AUTH Y FIRESTORE (para usuarios y créditos)
+    import { 
+      getAuth, 
+      createUserWithEmailAndPassword, 
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+    
+    import { 
+      getFirestore, 
+      doc, 
+      setDoc, 
+      getDoc, 
+      updateDoc,
+      serverTimestamp 
+    } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBHqkAKCtFfkglFpL5YDyzBiX5khqvI1NQ",
+      authDomain: "ledma-d79ae.firebaseapp.com",
+      projectId: "ledma-d79ae",
+      storageBucket: "ledma-d79ae.firebasestorage.app",
+      messagingSenderId: "989264306019",
+      appId: "1:989264306019:web:ea94d328e14ae8571ffd56",
+      measurementId: "G-VDSDVHGG06"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // 🌟 HACER DISPONIBLE GLOBALMENTE para usar en otros scripts
+    window.firebaseAuth = auth;
+    window.firebaseDB = db;
+    window.firebaseApp = app;
+    
+    // 🚀 FUNCIONES DE AUTENTICACIÓN
+    window.createUser = createUserWithEmailAndPassword;
+    window.signInUser = signInWithEmailAndPassword;
+    window.signOutUser = signOut;
+    window.onAuthChanged = onAuthStateChanged;
+    
+    // 🚀 FUNCIONES DE FIRESTORE
+    window.firestoreDoc = doc;
+    window.firestoreSetDoc = setDoc;
+    window.firestoreGetDoc = getDoc;
+    window.firestoreUpdateDoc = updateDoc;
+    window.firestoreTimestamp = serverTimestamp;
+
+    console.log("🔥 Firebase inicializado correctamente!");
+
+    // 🔥 AUTH STATE LISTENER
+    window.onAuthChanged(auth, async (user) => {
+      if (user) {
+        console.log("User logged in:", user.email);
+        await loadUserData(user);
+        showUserInterface();
+      } else {
+        console.log("User logged out");
+        showGuestInterface();
+      }
+    });
+  </script>
+
+  <!-- 🔥 USER SYSTEM JAVASCRIPT -->
+  <script>
+    let currentUser = null;
+    let userData = null;
+    let isEnglish = true;
+
+    // 🔐 AUTH FUNCTIONS
+    async function handleLogin(event) {
+      event.preventDefault();
+      
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      const errorDiv = document.getElementById('login-error');
+      
+      try {
+        const userCredential = await window.signInUser(window.firebaseAuth, email, password);
+        console.log('Login successful!');
+        closeAuthModal();
+      } catch (error) {
+        console.error('Login error:', error);
+        errorDiv.textContent = getErrorMessage(error.code);
+        errorDiv.style.display = 'block';
+      }
+    }
+
+    async function handleRegister(event) {
+      event.preventDefault();
+      
+      const name = document.getElementById('register-name').value;
+      const email = document.getElementById('register-email').value;
+      const password = document.getElementById('register-password').value;
+      const errorDiv = document.getElementById('register-error');
+      const successDiv = document.getElementById('register-success');
+      
+      try {
+        const userCredential = await window.createUser(window.firebaseAuth, email, password);
+        
+        // Create user document in Firestore
+        await window.firestoreSetDoc(window.firestoreDoc(window.firebaseDB, 'users', userCredential.user.uid), {
+          name: name,
+          email: email,
+          credits: 0,
+          dailyDownloadsUsed: 0,
+          lastDailyReset: new Date().toDateString(),
+          totalDownloads: 0,
+          createdAt: window.firestoreTimestamp()
+        });
+        
+        successDiv.textContent = isEnglish ? 'Account created successfully!' : '¡Cuenta creada exitosamente!';
+        successDiv.style.display = 'block';
+        errorDiv.style.display = 'none';
+        
+        setTimeout(() => {
+          closeAuthModal();
+        }, 2000);
+        
+      } catch (error) {
+        console.error('Registration error:', error);
+        errorDiv.textContent = getErrorMessage(error.code);
+        errorDiv.style.display = 'block';
+        successDiv.style.display = 'none';
+      }
+    }
+
+    async function logoutUser() {
+      try {
+        await window.signOutUser(window.firebaseAuth);
+        console.log('Logout successful!');
+      } catch (error) {
+        console.error('Logout error:', error);
+      }
+    }
+
+    // 🎯 USER DATA FUNCTIONS
+    async function loadUserData(user) {
+      try {
+        currentUser = user;
+        const userDoc = await window.firestoreGetDoc(window.firestoreDoc(window.firebaseDB, 'users', user.uid));
+        
+        if (userDoc.exists()) {
+          userData = userDoc.data();
+          
+          // Check if daily downloads need reset
+          const today = new Date().toDateString();
+          if (userData.lastDailyReset !== today) {
+            userData.dailyDownloadsUsed = 0;
+            userData.lastDailyReset = today;
+            
+            await window.firestoreUpdateDoc(window.firestoreDoc(window.firebaseDB, 'users', user.uid), {
+              dailyDownloadsUsed: 0,
+              lastDailyReset: today
+            });
+          }
+          
+          updateUserInterface();
+        }
+      } catch (error) {
+        console.error('Error loading user data:', error);
+      }
+    }
+
+    function updateUserInterface() {
+      if (!userData) return;
+      
+      // Update credits display
+      document.getElementById('user-credits').textContent = userData.credits || 0;
+      
+      // Update daily usage
+      const dailyUsed = userData.dailyDownloadsUsed || 0;
+      document.getElementById('daily-usage').textContent = 
+        isEnglish ? `Daily download: ${dailyUsed}/1` : `Descarga diaria: ${dailyUsed}/1`;
+      
+      // Update user initials
+      const initials = userData.name ? userData.name.split(' ').map(n => n[0]).join('').toUpperCase() : 'U';
+      document.getElementById('user-initials').textContent = initials;
+    }
+
+    function showUserInterface() {
+      document.getElementById('guest-section').style.display = 'none';
+      document.getElementById('user-section').style.display = 'flex';
+    }
+
+    function showGuestInterface() {
+      document.getElementById('guest-section').style.display = 'block';
+      document.getElementById('user-section').style.display = 'none';
+      currentUser = null;
+      userData = null;
+    }
+
+    // 🎨 MODAL FUNCTIONS
+    function openAuthModal() {
+      document.getElementById('auth-modal').classList.add('active');
+      showLoginForm();
+    }
+
+    function closeAuthModal() {
+      document.getElementById('auth-modal').classList.remove('active');
+      clearAuthForms();
+    }
+
+    function showLoginForm() {
+      document.getElementById('login-form').style.display = 'block';
+      document.getElementById('register-form').style.display = 'none';
+    }
+
+    function showRegisterForm() {
+      document.getElementById('login-form').style.display = 'none';
+      document.getElementById('register-form').style.display = 'block';
+    }
+
+    function clearAuthForms() {
+      document.getElementById('login-form').reset();
+      document.getElementById('register-form').reset();
+      document.getElementById('login-error').style.display = 'none';
+      document.getElementById('register-error').style.display = 'none';
+      document.getElementById('register-success').style.display = 'none';
+    }
+
+    function openCreditsModal() {
+      document.getElementById('credits-modal').classList.add('active');
+    }
+
+    function closeCreditsModal() {
+      document.getElementById('credits-modal').classList.remove('active');
+    }
+
+    function openUpgradeModal() {
+      document.getElementById('upgrade-modal').classList.add('active');
+    }
+
+    function closeUpgradeModal() {
+      document.getElementById('upgrade-modal').classList.remove('active');
+    }
+
+    // 💳 CREDITS FUNCTIONS
+    function selectPackage(packageType) {
+      alert(`Selected ${packageType} package! Payment integration coming soon.`);
+      // TODO: Integrate with Stripe for actual payments
+    }
+
+    async function generatePremiumAudio() {
+      if (!currentUser || !userData) {
+        openAuthModal();
+        return;
+      }
+      
+      const creditsNeeded = 15; // Example cost
+      
+      if (userData.credits < creditsNeeded) {
+        alert(isEnglish ? 'Not enough credits!' : '¡No tienes suficientes créditos!');
+        openCreditsModal();
+        return;
+      }
+      
+      // TODO: Integrate with Google TTS/Amazon Polly
+      alert('Premium audio generation coming soon!');
+      closeUpgradeModal();
+    }
+
+    // 📱 PROFILE FUNCTIONS
+    function openProfileModal() {
+      alert('Profile modal coming soon!');
+    }
+
+    function showDownloadHistory() {
+      alert('Download history coming soon!');
+    }
+
+    // 🌍 LANGUAGE FUNCTIONS
+    function toggleLanguage() {
+      const elements = document.querySelectorAll('[data-en]');
+      elements.forEach(el => {
+        el.textContent = isEnglish ? el.getAttribute('data-es') : el.getAttribute('data-en');
+      });
+      document.querySelector('.header-lang-btn').innerHTML = 
+        `<i class="fas fa-globe" style="margin-right: 5px; font-size: 0.8rem;"></i>${isEnglish ? 'EN' : 'ES'}`;
+      isEnglish = !isEnglish;
+      
+      // Update user interface language if user is logged in
+      if (userData) {
+        updateUserInterface();
+      }
+    }
+
+    // 🚨 ERROR HANDLING
+    function getErrorMessage(errorCode) {
+      const errors = {
+        'auth/user-not-found': isEnglish ? 'No account found with this email.' : 'No se encontró cuenta con este correo.',
+        'auth/wrong-password': isEnglish ? 'Incorrect password.' : 'Contraseña incorrecta.',
+        'auth/email-already-in-use': isEnglish ? 'Email already registered.' : 'El correo ya está registrado.',
+        'auth/weak-password': isEnglish ? 'Password should be at least 6 characters.' : 'La contraseña debe tener al menos 6 caracteres.',
+        'auth/invalid-email': isEnglish ? 'Invalid email address.' : 'Dirección de correo inválida.',
+        'auth/too-many-requests': isEnglish ? 'Too many attempts. Try again later.' : 'Demasiados intentos. Intenta más tarde.'
+      };
+      return errors[errorCode] || (isEnglish ? 'An error occurred. Please try again.' : 'Ocurrió un error. Intenta de nuevo.');
+    }
+
+    // 🎯 UTILITY FUNCTIONS
+    function calculateCreditsNeeded(text) {
+      const characters = text.length;
+      const creditsPerChar = 0.015; // $0.015 CAD per 1000 chars
+      return Math.ceil(characters * creditsPerChar);
+    }
+
+    async function updateUserCredits(userId, creditsToDeduct) {
+      try {
+        const newCredits = userData.credits - creditsToDeduct;
+        await window.firestoreUpdateDoc(window.firestoreDoc(window.firebaseDB, 'users', userId), {
+          credits: newCredits,
+          totalDownloads: (userData.totalDownloads || 0) + 1
+        });
+        userData.credits = newCredits;
+        userData.totalDownloads = (userData.totalDownloads || 0) + 1;
+        updateUserInterface();
+      } catch (error) {
+        console.error('Error updating credits:', error);
+      }
+    }
+
+    async function updateDailyUsage(userId) {
+      try {
+        const newUsage = (userData.dailyDownloadsUsed || 0) + 1;
+        await window.firestoreUpdateDoc(window.firestoreDoc(window.firebaseDB, 'users', userId), {
+          dailyDownloadsUsed: newUsage
+        });
+        userData.dailyDownloadsUsed = newUsage;
+        updateUserInterface();
+      } catch (error) {
+        console.error('Error updating daily usage:', error);
+      }
+    }
+
+    // 🔥 INTEGRATION WITH TEXT READER
+    window.LEDMA_AUTH = {
+      getCurrentUser: () => currentUser,
+      getUserData: () => userData,
+      isLoggedIn: () => !!currentUser,
+      canUseDailyFree: () => userData && (userData.dailyDownloadsUsed || 0) < 1,
+      hasCredits: (amount) => userData && userData.credits >= amount,
+      openAuthModal,
+      openUpgradeModal,
+      openCreditsModal,
+      updateUserCredits,
+      updateDailyUsage,
+      calculateCreditsNeeded
+    };
+
+    // Close modals when clicking outside
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('modal-overlay')) {
+        if (e.target.id === 'auth-modal') closeAuthModal();
+        if (e.target.id === 'credits-modal') closeCreditsModal();
+        if (e.target.id === 'upgrade-modal') closeUpgradeModal();
+      }
+    });
+
+    // 🎬 SMOOTH SCROLLING FOR NAVIGATION LINKS
+    document.addEventListener('DOMContentLoaded', function() {
+      // Detect scroll for header transform effect
+      window.addEventListener('scroll', function() {
+        const header = document.querySelector('header');
+        if (window.scrollY > 50) {
+          header.style.padding = '0.7rem 2rem';
+          header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
+        } else {
+          header.style.padding = '1rem 2rem';
+          header.style.boxShadow = '0 2px 15px rgba(0, 0, 0, 0.05)';
+        }
+      });
+      
+      // Fix dropdown hover on mobile
+      const dropdowns = document.querySelectorAll('.header-dropdown');
+      dropdowns.forEach(dropdown => {
+        dropdown.addEventListener('touchstart', function() {
+          this.classList.toggle('touch-active');
+          const content = this.querySelector('.header-dropdown-content');
+          if (this.classList.contains('touch-active')) {
+            content.style.opacity = '1';
+            content.style.visibility = 'visible';
+            content.style.transform = 'translateY(0)';
+          } else {
+            content.style.opacity = '0';
+            content.style.visibility = 'hidden';
+            content.style.transform = 'translateY(10px)';
+          }
+        });
+      });
+
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          }
+        });
+      });
+    });
+
+    // 🎯 WELCOME MESSAGE FOR NEW USERS
+    function showWelcomeMessage(userName) {
+      const welcomeHtml = `
+        <div style="position: fixed; top: 20px; right: 20px; background: linear-gradient(45deg, #004aad, #0067b8); color: white; padding: 1rem 1.5rem; border-radius: 12px; box-shadow: 0 5px 20px rgba(0, 74, 173, 0.3); z-index: 3000; max-width: 300px;">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0.5rem;">
+            <i class="fas fa-party-horn" style="font-size: 1.2rem;"></i>
+            <strong>${isEnglish ? 'Welcome to LEDMA!' : '¡Bienvenido a LEDMA!'}</strong>
+          </div>
+          <p style="margin: 0; font-size: 0.9rem;">
+            ${isEnglish ? `Hi ${userName}! You now get 1 free download daily.` : `¡Hola ${userName}! Ahora tienes 1 descarga gratis diaria.`}
+          </p>
+          <button onclick="this.parentElement.remove()" style="position: absolute; top: 8px; right: 10px; background: none; border: none; color: white; font-size: 1.1rem; cursor: pointer;">&times;</button>
+        </div>
+      `;
+      
+      document.body.insertAdjacentHTML('beforeend', welcomeHtml);
+      
+      // Auto remove after 5 seconds
+      setTimeout(() => {
+        const welcomeEl = document.querySelector('[style*="Welcome to LEDMA"]')?.parentElement;
+        if (welcomeEl) welcomeEl.remove();
+      }, 5000);
+    }
+
+    console.log("🚀 LEDMA User System loaded successfully!");
+  </script>
+</body>
+</html>
